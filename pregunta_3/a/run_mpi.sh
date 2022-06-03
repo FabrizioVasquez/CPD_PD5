@@ -8,7 +8,7 @@ module load mpich/4.0
 
 for i in 2 4 8 16
 do
- mpirun -np $i ./a.out
+ mpirun -np $i ./mpi.exe
 done
 
 module unload mpich/4.0
