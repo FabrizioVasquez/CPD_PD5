@@ -29,14 +29,6 @@ int main(int argc, char **argv) {
             }
         }
 
-        /*for(int i=0; i < N ;i++){
-            for(int j=0; j < N; j++){
-                std::cout<<m[i][j]<<" ";
-            }
-            std::cout<<"("<<v[i]<<")"<<std::endl;
-            std::cout<<std::endl;
-        }*/
-
         for(int i = 0; i < N;i++){
             r[i] = 0 ;
             for(int j=0; j < N; j++){
@@ -44,28 +36,18 @@ int main(int argc, char **argv) {
             }
         }
 
-        /*for(int i=0; i < N ;i++){
-            std::cout<<"---"<<std::endl;
-            std::cout<<"("<<r[i]<<")"<<std::endl;
-        }*/
         std::cout<<std::endl;
         t0 = MPI_Wtime();
     }
     
-    //Copia de cada fila divida entre la cantidad de procesos
     MPI_Scatter( m[0] , N , MPI_INT , fila_local , N , MPI_INT , 0 , MPI_COMM_WORLD);
     MPI_Barrier( MPI_COMM_WORLD);
-    //Fila de la matriz original
-    /*for(int i=0; i < N ;i++){
-        std::cout<<fila_local[i]<<" ";
-    }*/
+    
     //Copia de los v para cada procesador
     MPI_Bcast( v , N , MPI_INT , 0 , MPI_COMM_WORLD);
     MPI_Barrier( MPI_COMM_WORLD);
     //Copia de los v para cada procesador
-    /*for(int i = 0 ; i < N; i++){
-        std::cout<<v[i]<<" "<<std::endl;
-    }*/
+
     int tmp_sum = 0;
     for(int i = 0; i < N; i++){
         tmp_sum += fila_local[i]*v[i];
@@ -73,18 +55,12 @@ int main(int argc, char **argv) {
 
     MPI_Gather( &tmp_sum , 1 , MPI_INT , r_p , 1 , MPI_INT , 0 , MPI_COMM_WORLD);
     tf = MPI_Wtime();
-    //Verificando resultado
+
     if(rank == 0){
         std::ofstream file("tiempos_mpi.txt", std::ios::out | std::ios::app);
         file << (tf-t0)<<std::endl;
         file.close();
-        /*for(int i = 0; i < N; i++){
-            std::cout<<"("<<r_p[i]<<")"<<std::endl;
-        }*/
     }
-
-
-
 
     MPI_Finalize();
 }
