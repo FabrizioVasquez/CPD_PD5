@@ -6,7 +6,7 @@ using namespace std;
 int main(int argc, char** argv){
     srand(time(NULL));
     int num = strtol(argv[1], NULL, 10);
-    int N = 200;
+    int N = 1000;
     int m[N][N];
     int v[N];
     int r[N];
@@ -24,7 +24,7 @@ int main(int argc, char** argv){
                 for(j = 0; j < N; j++)
                     m[i][j] = 1 + rand()%5;
 
-        #pragma omp for schedule(dynamic)
+        #pragma omp for schedule(static)
             for(i = 0; i < N; i++){
                 r[i] = 0;
                 for(j=0; j < N; j++){
