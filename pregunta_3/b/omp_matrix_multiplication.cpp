@@ -6,7 +6,7 @@ using namespace std;
 int main(int argc, char** argv){
     srand(time(NULL));
     int num = strtol(argv[1], NULL, 10);
-    int N = 1000;
+    int N = num;
     int m[N][N];
     int v[N];
     int r[N];
